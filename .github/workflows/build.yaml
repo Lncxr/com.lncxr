@@ -10,10 +10,11 @@ jobs:
       - uses: actions/checkout@v3
       - name: Rebuild index.html
         run: sh rebuild.sh
-      - name: Update repository 
+      - name: Update repository
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}
           git add index.html
           git diff --cached --quiet || git commit -m "rebuilt index.html"
           git push
