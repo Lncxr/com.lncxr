@@ -18,7 +18,7 @@ awk -v bootstrap="$HTML_DIR/bootstrap.html" '
 
 printf '  <ul>\n' >>"$OUTPUT_FILE"
 
-find "$FRAGMENTS_DIR" -name '*.html' -print0 | sort -zr | while IFS= read -r -d '' FILE; do
+find "$FRAGMENTS_DIR" -name '*.html' | sort -r | while read -r FILE; do
     FILENAME=$(basename "$FILE")
     DATE=${FILENAME%%-*}-$(echo "$FILENAME" | cut -d'-' -f2-3)
     TITLE=$(echo "$FILENAME" | cut -d'-' -f4- | sed 's/\.html$//' | tr '-' ' ')
