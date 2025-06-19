@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - 'fragments/*'
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,4 +21,4 @@ jobs:
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
           git add index.html
           git diff --cached --quiet || git commit -m "rebuilt index.html"
-          git push
+          git push -u origin gh-pages
