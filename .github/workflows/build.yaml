@@ -1,0 +1,19 @@
+name: Rebuild
+on:
+  push:
+    paths:
+      - 'fragments/*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Rebuild index.html
+        run: ./rebuild.sh
+      - name: Update repository 
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add index.html
+          git diff --cached --quiet || git commit -m "rebuilt index.html"
+          git push
