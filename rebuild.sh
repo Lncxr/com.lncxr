@@ -8,9 +8,18 @@ OUTPUT_FILE="index.html"
 
 # Sanity check
 
-[ -d "$DEPENDENCIES_DIR" ] || { echo "Missing $DEPENDENCIES_DIR"; exit 1; }
-[ -d "$FRAGMENTS_DIR" ] || { echo "Missing $FRAGMENTS_DIR"; exit 1; }
-[ -d "$HTML_DIR" ] || { echo "Missing $HTML_DIR"; exit 1; }
+[ -d "$DEPENDENCIES_DIR" ] || {
+  echo "Missing $DEPENDENCIES_DIR"
+  exit 1
+}
+[ -d "$FRAGMENTS_DIR" ] || {
+  echo "Missing $FRAGMENTS_DIR"
+  exit 1
+}
+[ -d "$HTML_DIR" ] || {
+  echo "Missing $HTML_DIR"
+  exit 1
+}
 
 # Inline dependencies
 
@@ -32,11 +41,11 @@ awk -v depdir="$DEPENDENCIES_DIR" '
 printf '  <ul>\n' >>"$OUTPUT_FILE"
 
 find "$FRAGMENTS_DIR" -name '*.html' | sort -r | while read -r FILE; do
-    FILENAME=$(basename "$FILE")
-    DATE="${FILENAME%%-*}-$(echo "$FILENAME" | cut -d'-' -f2-3)"
-    TITLE="$(echo "$FILENAME" | cut -d'-' -f4- | sed 's/\.html$//' | tr '-' ' ')"
+  FILENAME=$(basename "$FILE")
+  DATE="${FILENAME%%-*}-$(echo "$FILENAME" | cut -d'-' -f2-3)"
+  TITLE="$(echo "$FILENAME" | cut -d'-' -f4- | sed 's/\.html$//' | tr '-' ' ')"
 
-    awk -v title="$TITLE" -v date="$DATE" -v file="$FILE" '
+  awk -v title="$TITLE" -v date="$DATE" -v file="$FILE" '
     {
       gsub(/\{\{TITLE\}\}/, title)
       gsub(/\{\{DATE\}\}/, date)
